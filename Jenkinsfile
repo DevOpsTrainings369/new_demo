@@ -3,24 +3,24 @@ pipeline {
   stages {
     stage('Build') {
       steps {
-        echo 'Building...'
+        bash 'echo "Building" '
       }
     }
     stage('Test Firefox') {
       parallel {
         stage('Test Firefox') {
           steps {
-            sh 'echo \'Testing Firefox\''
+            bash 'echo \'Testing Firefox\''
           }
         }
         stage('Test Chrome') {
           steps {
-            sh 'echo \'Testing Chrome\''
+            bash 'echo \'Testing Chrome\''
           }
         }
         stage('Test Edge') {
           steps {
-            sh 'echo \'Testing Edge\''
+            bash 'echo \'Testing Edge\''
           }
         }
       }

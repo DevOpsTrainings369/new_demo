@@ -3,31 +3,31 @@ pipeline {
   stages {
     stage('Build') {
       steps {
-        bash 'echo \'Building\' '
+        bash 'ls -lrt '
       }
     }
     stage('Test Firefox') {
       parallel {
         stage('Test Firefox') {
           steps {
-            bash 'echo \'Testing Firefox\''
+            bash 'ls -lrt'
           }
         }
         stage('Test Chrome') {
           steps {
-            bash 'echo \'Testing Chrome\''
+            bash 'ls -lrt'
           }
         }
         stage('Test Edge') {
           steps {
-            bash 'echo \'Testing Edge\''
+            bash 'ls -lrt'
           }
         }
       }
     }
     stage('Deploy') {
       steps {
-        bash 'echo \'Deploy\''
+        bash 'ls -lrt'
       }
     }
   }

@@ -1,0 +1,55 @@
+pipeline {
+	agent any
+	environment {
+		PYTHONPATH = "${WORKSPACE}/section_4/code/cd_pipeline"
+	}
+
+	stages {
+
+		stage("Test - Unit tests") {
+			steps { runUnittests() }
+		}
+
+		stage("Build") {
+			steps { buildApp() }
+		}
+
+		stage("Deploy - Dev") {
+			steps { deploy('dev') }
+		}
+
+		stage("Test - UAT Dev") {
+			steps { runUAT(8888) }
+		}
+
+		stage("Deploy - Stage") {
+			steps { deploy('stage') }
+		}
+
+		stage("Test - UAT Stage") {
+			steps { runUAT(88) }
+		}
+	}
+}
+
+
+// steps
+def buildApp() {
+	dir ('section_4/code/cd_pipeline' ) {
+		def appImage = docker.build("hands-on-jenkins/myapp:${BUILD_NUMBER}")
+	}
+}
+
+def deploy(environment) {
+	sh "docker run -d -p 8888:5000 --name app_dev hands-on-jenkins/myapp:${BUILD_NUMBER}"
+}
+
+def runUnittests() {
+      	sh "pip3 install --user jenkins -r ./section_4/code/cd_pipeline/requirements.txt"
+	sh "python3 section_4/code/cd_pipeline/tests/test_flask_app.py"
+}
+
+
+def runUAT(port) {
+	sh "section_4/code/cd_pipeline/tests/runUAT.sh ${port}"
+}
